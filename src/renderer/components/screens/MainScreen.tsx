@@ -241,54 +241,55 @@ export default function MainScreen() {
               </NavbarHeading>
             )}
             {selectedChat.chat && (
-              <span className='views'>
-                <Button
-                  onClick={() => setView(View.MessageList)}
-                  minimal
-                  large
-                  active={view === View.MessageList}
-                  // aria-selected={!view}
-                  icon={'chat'}
-                  aria-label={tx('chat')}
-                />
-                <Button
-                  onClick={() => setView(View.Media)}
-                  minimal
-                  large
-                  active={view === View.Media}
-                  // aria-selected={view}
-                  icon={'media'}
-                  aria-label={tx('media')}
-                />
-                {settingsStore?.desktopSettings
-                  .enableOnDemandLocationStreaming && (
+              <>
+                <span className='views'>
                   <Button
+                    onClick={() => setView(View.MessageList)}
                     minimal
                     large
-                    icon='map'
-                    onClick={() => setView(View.Map)}
-                    active={view === View.Map}
-                    aria-label={tx('tab_map')}
+                    active={view === View.MessageList}
+                    // aria-selected={!view}
+                    icon={'chat'}
+                    aria-label={tx('chat')}
                   />
-                )}
-              </span>
+                  <Button
+                    onClick={() => setView(View.Media)}
+                    minimal
+                    large
+                    active={view === View.Media}
+                    // aria-selected={view}
+                    icon={'media'}
+                    aria-label={tx('media')}
+                  />
+                  {settingsStore?.desktopSettings
+                    .enableOnDemandLocationStreaming && (
+                    <Button
+                      minimal
+                      large
+                      icon='map'
+                      onClick={() => setView(View.Map)}
+                      active={view === View.Map}
+                      aria-label={tx('tab_map')}
+                    />
+                  )}
+                </span>
+                <span
+                  style={{
+                    marginLeft: 0,
+                    marginRight: '3px',
+                  }}
+                >
+                  <Button
+                    className='icon-rotated'
+                    minimal
+                    icon='more'
+                    id='three-dot-menu-button'
+                    aria-label={tx('main_menu')}
+                    onClick={onClickThreeDotMenu}
+                  />
+                </span>
+              </>
             )}
-            <span
-              style={{
-                marginLeft:
-                  selectedChat.chat && selectedChat.chat.id ? 0 : 'auto',
-                marginRight: '3px',
-              }}
-            >
-              <Button
-                className='icon-rotated'
-                minimal
-                icon='more'
-                id='three-dot-menu-button'
-                aria-label={tx('main_menu')}
-                onClick={onClickThreeDotMenu}
-              />
-            </span>
           </NavbarGroup>
         </Navbar>
       </div>
