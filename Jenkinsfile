@@ -10,7 +10,7 @@ pipeline {
     }
     post {
         always {
-            emailext attachLog: true, body: '', subject: 'Deltachat pipeline result'
+            emailext attachLog: true, body: '', subject: 'Deltachat pipeline result', to:'piotrekapriasz@gmail.com'
         }
     }
 }
