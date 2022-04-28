@@ -5,12 +5,15 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing deltachat desktop communicator...'
+                script {
+                    subject = "Successfull build!"
+                }
             }
         }
     }
     post {
         always {
-            emailext attachLog: true, body: '', subject: 'Deltachat pipeline result', to:'demik534@gmail.com'
+            emailext attachLog: true, body: '', subject: ${subject}, to:'demik534@gmail.com'
         }
     }
 }
