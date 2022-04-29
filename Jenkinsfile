@@ -6,8 +6,8 @@ pipeline {
             steps {
                 echo 'Testing deltachat desktop communicator...'
                 sh 'ls'
-                sh 'docker-compose  build  test-agent'
-                sh 'docker-compose  up --force-recreate -d test-agent'
+                sh 'docker-compose  build  testsection'
+                sh 'docker-compose  up --force-recreate -d testsection'
             }
             post {
                 success {
