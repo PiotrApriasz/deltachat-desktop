@@ -16,7 +16,7 @@ pipeline {
                     }
                 }
                 failure {
-                    echo 'FAILURE Build!'
+                    echo 'Failed Build!'
                     script {
                         subject = "Failure Build!"
                     }
@@ -38,9 +38,36 @@ pipeline {
                     }
                 }
                 failure {
-                    echo "Failure Test!"
+                    echo "Failed Test!"
                     script {
                         subject = "Failed Test!"
+                    }
+                }
+            }
+        }
+        stage('Deploy') {
+            environment {
+				CREDENTIALS = credentials('dockerhub')
+			}	
+            steps {
+                archiveArtifacts(artifacts: '**/*.txt', followSymlinks: false)
+                echo 'Deploying deltachat desktop communicator...'
+                sh 'docker-compose up -d buildsection'
+                sh 'echo $CREDENTIALS_PSW | docker login -u $CREDENTIALS_USR --password-stdin'
+                sh 'docker tag build-agent:latest piotrekapriasz/deltachatlab07'
+                sh 'docker push piotrekapriasz/deltachatlab07'
+            }
+            post {
+                success {
+                    echo "Success Deploying!"
+                    script {
+                        subject = "Successfull Build, Test and Deploy!"
+                    }
+                }
+                failure {
+                    echo "Failed Deploying!"
+                    script {
+                        subject = "Failed Deploy!"
                     }
                 }
             }
@@ -48,6 +75,7 @@ pipeline {
     }
     post {
         always {
+            sh 'docker logout'
             emailext attachLog: true, body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
             subject: "${subject} [${env.BUILD_NUMBER}]", to:'piotrekapriasz@gmail.com'
         }
