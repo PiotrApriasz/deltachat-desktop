@@ -6,6 +6,7 @@ pipeline {
             steps {
                 echo 'Building deltachat desktop communicator...'
                 sh 'docker-compose build buildsection'
+                sh 'docker-compose logs > build_result.txt'
             }
             post {
                 success {
@@ -27,6 +28,7 @@ pipeline {
                 echo 'Testing deltachat desktop communicator...'
                 sh 'docker-compose  build  testsection'
                 sh 'docker-compose  up testsection'
+                sh 'docker-compose logs > test_result.txt'
             }
             post {
                 success {
